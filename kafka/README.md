@@ -64,6 +64,4 @@ kafka-console-consumer.sh --topic events --from-beginning --bootstrap-server loc
 ## Conclusion
 This small guide shows only the basic functionalities of Kafka, and mostly with default arguments, but it is still the most important feature that Kafka provides.
 Understanding how the command line interface works will help you investigate problems and explore different configurations for the Kafka broker and topics. 
-\
-\
-The last steps in the quickstart guide will be addressed in other pages.
+
