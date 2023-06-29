@@ -2,7 +2,7 @@ version: "2"
 
 services:
   kafka:
-    image: docker.io/bitnami/kafka:3.4
+    image: docker.io/bitnami/kafka:3.5
     container_name: waia_kafka_broker
     ports:
       - "9092:9092"
@@ -10,6 +10,7 @@ services:
       - "kafka_data:/bitnami"
     environment:
       - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
 
 volumes:
   kafka_data:

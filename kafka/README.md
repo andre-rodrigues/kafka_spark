@@ -21,6 +21,16 @@ root@e4dc9249978e:/# cd /opt/bitnami/kafka/bin
 root@e4dc9249978e:/opt/bitnami/kafka/bin#
 ```
 
+**Alternative**:
+You can also download kafka binaries and use it directly, like the quick-start tutorial suggests.
+```
+curl https://dlcdn.apache.org/kafka/3.5.0/kafka_2.13-3.5.0.tgz --output kafka_2.13-3.5.0.tgz
+
+tar -xzf kafka_2.13-3.5.0.tgz
+
+cd kafka_2.13-3.5.0/
+```
+
 ## Step 3:
 You can now follow the instructions from the quickstart guide on **[STEP 3: CREATE A TOPIC TO STORE YOUR EVENTS](https://kafka.apache.org/quickstart#quickstart_createtopic)**.
 
