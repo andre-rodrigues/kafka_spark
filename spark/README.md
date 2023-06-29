@@ -47,3 +47,16 @@ sampleDataframe = (
         .load()
     )
 ```
+
+4- Write the results of that DataFrame to CSV files.
+```
+    base_df = sampleDataframe.selectExpr("CAST(value as STRING)", "timestamp")
+    base_df.writeStream \
+      .format("csv") \
+      .trigger(processingTime="10 seconds") \
+      .option("checkpointLocation", "checkpoint/") \
+      .option("path", f"./{KAFKA_TOPIC_NAME}/") \
+      .outputMode("append") \
+      .start() \
+      .awaitTermination()
+```
