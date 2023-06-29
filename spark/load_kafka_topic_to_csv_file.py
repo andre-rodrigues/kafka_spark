@@ -6,7 +6,7 @@ from pyspark.sql.functions import *
 from pyspark.sql.types import *
 
 KAFKA_TOPIC_NAME = os.getenv("KAFKA_TOPIC_NAME", "quickstart-events")
-KAFKA_BOOTSTRAP_SERVER = os.getenv("KAFKA_BOOTSTRAP_SERVER", "3.72.246.226:9092")
+KAFKA_BOOTSTRAP_SERVER = os.getenv("KAFKA_BOOTSTRAP_SERVER", "localhost:9092")
 
 if __name__ == "__main__":
     spark = (
