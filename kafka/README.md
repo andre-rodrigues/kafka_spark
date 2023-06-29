@@ -17,8 +17,7 @@ Connect to the docker container running the kafka broker and go to the binaries 
 docker exec -ti -u root waia_kafka_broker bash
 ```
 ```
-root@e4dc9249978e:/# cd /opt/bitnami/kafka/bin
-root@e4dc9249978e:/opt/bitnami/kafka/bin#
+cd /opt/bitnami/kafka/bin
 ```
 
 **Alternative**:
