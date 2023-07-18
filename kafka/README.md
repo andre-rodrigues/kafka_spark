@@ -66,7 +66,7 @@ kafka-console-consumer.sh --topic events --from-beginning --bootstrap-server loc
 
 Read only new events.
 ```
-kafka-console-consumer.sh --topic events --from-beginning --bootstrap-server localhost:9092
+kafka-console-consumer.sh --topic events --bootstrap-server localhost:9092
 ```
 
 
