@@ -31,20 +31,19 @@ cd kafka_2.13-3.5.0/
 ```
 
 ## Step 3:
-You can now follow the instructions from the quickstart guide on **[STEP 3: CREATE A TOPIC TO STORE YOUR EVENTS](https://kafka.apache.org/quickstart#quickstart_createtopic)**.
+The commands below were based on the kafka quickstart guide: **[STEP 3: CREATE A TOPIC TO STORE YOUR EVENTS](https://kafka.apache.org/quickstart#quickstart_createtopic)**.
 
-Alternatively, you can follow the commands and steps below.
 
 1- Create a topic
 ```
-kafka-topics.sh --create --topic events --bootstrap-server localhost:9092
+kafka-topics.sh --create --topic waia-events --bootstrap-server localhost:9092
 ```
 2- Describe the topic
 ```
-kafka-topics.sh --describe --topic events --bootstrap-server localhost:9092
+kafka-topics.sh --describe --topic waia-events --bootstrap-server localhost:9092
 
-Topic: events TopicId: wliVuT52QWyQifvfqRgqwA PartitionCount: 1 ReplicationFactor: 1  Configs: segment.bytes=1073741824
-  Topic: events Partition: 0  Leader: 1 Replicas: 1 Isr: 1
+Topic: waia-events TopicId: wliVuT52QWyQifvfqRgqwA PartitionCount: 1 ReplicationFactor: 1  Configs: segment.bytes=1073741824
+  Topic: waia-events Partition: 0  Leader: 1 Replicas: 1 Isr: 1
 
 ```
 
@@ -52,7 +51,7 @@ Topic: events TopicId: wliVuT52QWyQifvfqRgqwA PartitionCount: 1 ReplicationFacto
 Send data to the topic. \
 This will start an interactive session in your console waiting for inputs. Each line of input will generate one event in the topic.
 ```
-kafka-console-producer.sh --topic events --bootstrap-server localhost:9092
+kafka-console-producer.sh --topic waia-events --bootstrap-server localhost:9092
 ```
 
 ## Step 5:
@@ -61,12 +60,12 @@ This will read all events pushed to a topic and print them in the console. You c
 
 Read everything.
 ```
-kafka-console-consumer.sh --topic events --from-beginning --bootstrap-server localhost:9092
+kafka-console-consumer.sh --topic waia-events --from-beginning --bootstrap-server localhost:9092
 ```
 
 Read only new events.
 ```
-kafka-console-consumer.sh --topic events --bootstrap-server localhost:9092
+kafka-console-consumer.sh --topic waia-events --bootstrap-server localhost:9092
 ```
 
 
