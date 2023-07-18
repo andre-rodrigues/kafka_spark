@@ -13,13 +13,13 @@ if __name__ == "__main__":
     # Here we say what's the name of our application and how spark
     # should distribute the processing.
     spark = (
-        SparkSession.builder.appName("Kafka Pyspark Streaming Learning")
+        SparkSession.builder.appName("Real time average score")
         .master("local[*]")
         .getOrCreate()
     )
     spark.sparkContext.setLogLevel("INFO")
 
-    # Read data from the Kafka topic.
+    # Read data from the Kafka topic
     sampleDataframe = (
             spark.readStream.format("kafka")
             .option("kafka.bootstrap.servers", KAFKA_BOOTSTRAP_SERVER)
@@ -28,20 +28,24 @@ if __name__ == "__main__":
             .load()
         )
 
-    # Parse the content of the Kafka topic and split into separated columns.
+    # Use Spark to parse the data from the Kafka topic and
+    # calculate the average per name score every 10 seconds.
     base_df = sampleDataframe.selectExpr(
-        "SPLIT_PART(CAST(value as STRING), ':', 1) AS name",
-        "SPLIT_PART(CAST(value as STRING), ':', 2) AS score",
-        "timestamp"
-    )
+            "SPLIT_PART(CAST(value as STRING), ':', 1) AS name",
+            "SPLIT_PART(CAST(value as STRING), ':', 2) AS score",
+            "timestamp"
+        ) \
+        .withWatermark("timestamp", "10 seconds") \
+        .groupBy(base_df.name, "timestamp") \
+        .agg({"score": "avg"})
 
-    # Write the results into CSV files.
+    # Write the results to CSV files every 10 seconds.
     base_df.writeStream \
       .format("csv") \
       .trigger(processingTime="10 seconds") \
       .option("header", True) \
       .option("checkpointLocation", "checkpoint/") \
-      .option("path", f"./{KAFKA_TOPIC_NAME}/") \
+      .option("path", f"./avg-scores/") \
       .outputMode("append") \
       .start() \
       .awaitTermination()

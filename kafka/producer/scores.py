@@ -28,7 +28,7 @@ while True:
         # Trigger any available delivery report callbacks from previous produce() calls
         p.poll(0)
         
-        time.sleep(3)
+        time.sleep(2)
 
     # Wait for any outstanding messages to be delivered and delivery report
     # callbacks to be triggered.
