@@ -1,8 +1,9 @@
+import os
 from confluent_kafka import Consumer
 
 c = Consumer({
     'bootstrap.servers': 'localhost:9092',
-    'group.id': 'group1',
+    'group.id': os.getenv('GROUP', 'group1'),
     'auto.offset.reset': 'earliest'
 })
 
