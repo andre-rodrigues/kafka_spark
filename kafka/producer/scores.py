@@ -4,7 +4,7 @@ from confluent_kafka import Producer
 
 p = Producer({'bootstrap.servers': 'localhost:9092'})
 names = [
-    "John", "Mary", "Ben", "Anna"
+    "John", "Mary", "Jeff", "Anna"
 ]
 
 def delivery_report(err, msg):

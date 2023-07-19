@@ -12,12 +12,10 @@ if __name__ == "__main__":
     # Setup a new spark session.
     # Here we say what's the name of our application and how spark
     # should distribute the processing.
-    spark = (
-        SparkSession.builder.appName("Kafka Pyspark Streaming Learning")
-        .master("local[*]")
+    spark = SparkSession.builder.appName("Kafka Pyspark Streaming Learning") \
+        .master("local[*]") \
         .getOrCreate()
-    )
-    spark.sparkContext.setLogLevel("INFO")
+    spark.sparkContext.setLogLevel("WARN")
 
     # Read data from the Kafka topic.
     sampleDataframe = (
@@ -40,6 +38,7 @@ if __name__ == "__main__":
       .format("csv") \
       .trigger(processingTime="10 seconds") \
       .option("header", True) \
+      .option("delimiter", "\t") \
       .option("checkpointLocation", "checkpoint/") \
       .option("path", f"./{KAFKA_TOPIC_NAME}/") \
       .outputMode("append") \

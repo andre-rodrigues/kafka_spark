@@ -12,12 +12,10 @@ if __name__ == "__main__":
     # Setup a new spark session.
     # Here we say what's the name of our application and how spark
     # should distribute the processing.
-    spark = (
-        SparkSession.builder.appName("Real time average score")
-        .master("local[*]")
+    spark = SparkSession.builder.appName("Real time average score") \
+        .master("local[*]") \
         .getOrCreate()
-    )
-    spark.sparkContext.setLogLevel("INFO")
+    spark.sparkContext.setLogLevel("WARN")
 
     # Read data from the Kafka topic
     sampleDataframe = (
@@ -35,15 +33,17 @@ if __name__ == "__main__":
             "SPLIT_PART(CAST(value as STRING), ':', 2) AS score",
             "timestamp"
         ) \
-        .withWatermark("timestamp", "10 seconds") \
-        .groupBy(base_df.name, "timestamp") \
-        .agg({"score": "avg"})
+        .withWatermark("timestamp", "1 minute") \
+        .groupBy(col("name"), window(col("timestamp"), "10 minutes", "5 minutes")) \
+        .agg(avg("score").alias("avg_score"))
 
     # Write the results to CSV files every 10 seconds.
-    base_df.writeStream \
+    base_df.selectExpr("name", "avg_score", "window.start", "window.end") \
+      .writeStream \
       .format("csv") \
-      .trigger(processingTime="10 seconds") \
+      .trigger(processingTime="1 minute") \
       .option("header", True) \
+      .option("delimiter", "\t") \
       .option("checkpointLocation", "checkpoint/") \
       .option("path", f"./avg-scores/") \
       .outputMode("append") \
