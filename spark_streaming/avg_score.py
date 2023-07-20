@@ -37,15 +37,30 @@ if __name__ == "__main__":
         .groupBy(col("name"), window(col("timestamp"), "10 minutes", "5 minutes")) \
         .agg(avg("score").alias("avg_score"))
 
+    ####
+    # Option 1: Write to CSV files
+    ####
+
     # Write the results to CSV files every 10 seconds.
+    # base_df.selectExpr("name", "avg_score", "window.start", "window.end") \
+    #   .writeStream \
+    #   .format("csv") \
+    #   .trigger(processingTime="1 minute") \
+    #   .option("header", True) \
+    #   .option("delimiter", "\t") \
+    #   .option("checkpointLocation", "checkpoint/") \
+    #   .option("path", f"./avg-scores/") \
+    #   .outputMode("append") \
+    #   .start() \
+    #   .awaitTermination()
+
+
+    ####
+    # Option 2: Write to console
+    ####
     base_df.selectExpr("name", "avg_score", "window.start", "window.end") \
       .writeStream \
-      .format("csv") \
-      .trigger(processingTime="1 minute") \
-      .option("header", True) \
-      .option("delimiter", "\t") \
-      .option("checkpointLocation", "checkpoint/") \
-      .option("path", f"./avg-scores/") \
+      .format("console") \
       .outputMode("append") \
       .start() \
       .awaitTermination()
