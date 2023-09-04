@@ -1,3 +1,15 @@
+# Kafka Producer and Consumer
+
+Use the `docker-compose.yml` file to start the containers with Kafka and a producer.
+The logs will show the output of `./producer/scores.py`
+```
+docker compose up
+```
+
+In the `./consumer` folder, you can find another Dockerfile to start the consumer apart from the producer.
+This example shows the producer and consumer running separetly and exchanging information through Kafka.
+
+
 # Kafka CLI
 
 The quickstart guide provided by Apache will come in handy for testing the command line interface.

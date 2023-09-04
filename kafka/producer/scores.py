@@ -2,7 +2,7 @@ import random
 import time
 from confluent_kafka import Producer
 
-p = Producer({'bootstrap.servers': 'localhost:9092'})
+p = Producer({'bootstrap.servers': 'kafka:9092'})
 names = [
     "John", "Mary", "Jeff", "Anna"
 ]
@@ -27,7 +27,6 @@ while True:
 
         # Trigger any available delivery report callbacks from previous produce() calls
         p.poll(0)
-        
         time.sleep(2)
 
     # Wait for any outstanding messages to be delivered and delivery report
