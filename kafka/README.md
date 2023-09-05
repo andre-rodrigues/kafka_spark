@@ -9,6 +9,16 @@ docker compose up
 In the `./consumer` folder, you can find another Dockerfile to start the consumer apart from the producer.
 This example shows the producer and consumer running separetly and exchanging information through Kafka.
 
+To start the consumer, build the Docker image and start the container providing the same network name as the kafka broker.
+
+```
+docker build --tag kafka-scores-consumer ./consumer
+
+docker run --network=waia_containers --env PYTHONUNBUFFERED=1 kafka-scores-consumer
+```
+
+P.S: The argument `--env PYTHONUNBUFFERED=1` is only present to make sure the output of the script will be shown in the container's logs.
+
 
 # Kafka CLI
 
