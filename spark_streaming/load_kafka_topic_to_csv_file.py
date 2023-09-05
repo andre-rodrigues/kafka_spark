@@ -1,12 +1,12 @@
 import os
-os.environ['PYSPARK_SUBMIT_ARGS'] = '--packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.4.0,org.apache.spark:spark-sql-kafka-0-10_2.12:3.4.0 pyspark-shell'
+os.environ['PYSPARK_SUBMIT_ARGS'] = '--packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.4.0,org.apache.spark:spark-sql-kafka-0-10_2.12:3.4.0,org.postgresql:postgresql:42.5.4 pyspark-shell'
 
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import *
 from pyspark.sql.types import *
 
 KAFKA_TOPIC_NAME = os.getenv("KAFKA_TOPIC_NAME", "waia-events")
-KAFKA_BOOTSTRAP_SERVER = os.getenv("KAFKA_BOOTSTRAP_SERVER", "localhost:9092")
+KAFKA_BOOTSTRAP_SERVER = os.getenv("KAFKA_BOOTSTRAP_SERVER", "kafka:9092")
 
 if __name__ == "__main__":
     # Setup a new spark session.
@@ -33,14 +33,37 @@ if __name__ == "__main__":
         "timestamp"
     )
 
-    # Write the results into CSV files.
-    base_df.writeStream \
-      .format("csv") \
-      .trigger(processingTime="10 seconds") \
-      .option("header", True) \
-      .option("delimiter", "\t") \
-      .option("checkpointLocation", "checkpoint/") \
-      .option("path", f"./{KAFKA_TOPIC_NAME}/") \
-      .outputMode("append") \
-      .start() \
-      .awaitTermination()
+    # Option 1: Write to console
+    # base_df.writeStream \
+    #     .outputMode("complete") \
+    #     .format("console") \
+    #     .outputMode("append") \
+    #     .start() \
+    #     .awaitTermination()
+
+    # Option 2: Write to CSV files
+    # base_df.writeStream \
+    #   .format("csv") \
+    #   .trigger(processingTime="10 seconds") \
+    #   .option("header", True) \
+    #   .option("delimiter", "\t") \
+    #   .option("checkpointLocation", "checkpoint/") \
+    #   .option("path", f"./{KAFKA_TOPIC_NAME}/") \
+    #   .outputMode("append") \
+    #   .start() \
+    #   .awaitTermination()
+
+
+    # Option 3: Write to Database
+    # def foreach_batch_function(df, epoch_id):
+    #     df.write \
+    #     .format("jdbc") \
+    #     .mode("append") \
+    #     .option("url", "jdbc:postgresql://waia-spark-stream-db:5432/waia") \
+    #     .option("driver", "org.postgresql.Driver") \
+    #     .option("dbtable", "waia_events") \
+    #     .option("user", "postgres") \
+    #     .option("password", "postgres") \
+    #     .save()
+
+    # base_df.writeStream.foreachBatch(foreach_batch_function).start().awaitTermination()
