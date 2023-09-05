@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  waia-spark-stream-db:
+  waia-spark-stream-example-1-db:
     image: postgres:14.1-alpine
     restart: always
     networks:
@@ -15,10 +15,10 @@ services:
     volumes: 
       - db:/var/lib/postgresql/data
 
-  waia-spark-stream:
+  waia-spark-stream-example-1:
     build: ./
     depends_on:
-      - waia-spark-stream-db
+      - waia-spark-stream-example-1-db
     networks:
       - waia
     environment:

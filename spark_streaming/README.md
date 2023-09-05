@@ -1,25 +1,34 @@
 # Spark+Kafka pipeline
 
-This guide will shows a few steps to read data from a Kafka topic and send to CSV files.
-
-### Requirements
-- **pyspark**: `pip install pyspark`
-- **kafka**: Refer to kafka guide to setup a cluster and create a topic.
+This guide will shows a couple of examples on how to use Spark Streaming to process data from Kafka.
+First, make sure the kafka Broker is running by following the [here](https://github.com/andre-rodrigues/kafka_spark/blob/main/kafka/README.md).
 
 
-### Running the pipeline
-Use the file `load_kafka_topic_to_csv_file.py` to read data from a Kafka Topic and load into CSV files.
-```
-python load_kafka_topic_to_csv_file.py
-```
+### Example 1
 
-Optionally, try to read from different topics and also changing the bootstrap server.
-```
-KAFKA_TOPIC_NAME=<my-topic> python load_kafka_topic_to_csv_file.py
-KAFKA_TOPIC_NAME=<my-topic> KAFKA_BOOTSTRAP_SERVER=localhost:9092 python load_kafka_topic_to_csv_file.py
+The first example is a script that reads data from the topic `waia-events` and sends to a data sink. (console, CSV files or Postgres)
+
+Use the `docker-compose.yml` file inside the examples folder to start the application.
 
 ```
+cd example_1/
 
+docker compose up
+```
+
+### Example 2
+
+The second example is a script that calculates the average score based on events from the topic `waia-events`.
+
+Again, use the `docker-compose.yml` file inside the examples folder to start the application.
+
+```
+cd example_2/
+
+docker compose up
+```
+
+-----------------------------------
 
 ### Step by Step of the pipeline.
 1- Import the necessary packages to use Kafka as source. This is usualy not necessary for other sources.

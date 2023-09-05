@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  waia-spark-stream-example-2-db:
+    image: postgres:14.1-alpine
+    restart: always
+    networks:
+      - waia
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=waia
+    ports:
+      - '5434:5432'
+    volumes: 
+      - db:/var/lib/postgresql/data
+
+  waia-spark-stream-example-2:
+    build: ./
+    depends_on:
+      - waia-spark-stream-example-2-db
+    networks:
+      - waia
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./:/app
+
+volumes:
+  db:
+    driver: local
+
+networks:
+  waia:
+    name: waia_containers

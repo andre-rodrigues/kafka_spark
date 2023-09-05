@@ -59,7 +59,7 @@ if __name__ == "__main__":
     #     df.write \
     #     .format("jdbc") \
     #     .mode("append") \
-    #     .option("url", "jdbc:postgresql://waia-spark-stream-db:5432/waia") \
+    #     .option("url", "jdbc:postgresql://waia-spark-stream-example-1-db:5432/waia") \
     #     .option("driver", "org.postgresql.Driver") \
     #     .option("dbtable", "waia_events") \
     #     .option("user", "postgres") \

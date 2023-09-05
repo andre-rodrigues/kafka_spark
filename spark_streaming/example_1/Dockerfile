@@ -12,4 +12,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD [ "python", "./load_kafka_topic_to_csv_file.py" ]
+CMD [ "python", "./persist_waia_events.py" ]

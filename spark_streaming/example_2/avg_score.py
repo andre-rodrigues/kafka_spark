@@ -6,7 +6,7 @@ from pyspark.sql.functions import *
 from pyspark.sql.types import *
 
 KAFKA_TOPIC_NAME = os.getenv("KAFKA_TOPIC_NAME", "waia-events")
-KAFKA_BOOTSTRAP_SERVER = os.getenv("KAFKA_BOOTSTRAP_SERVER", "localhost:9092")
+KAFKA_BOOTSTRAP_SERVER = os.getenv("KAFKA_BOOTSTRAP_SERVER", "kafka:9092")
 
 if __name__ == "__main__":
     # Setup a new spark session.
@@ -61,6 +61,7 @@ if __name__ == "__main__":
     base_df.selectExpr("name", "avg_score", "window.start", "window.end") \
       .writeStream \
       .format("console") \
+      .trigger(processingTime="1 minute") \
       .outputMode("append") \
       .start() \
       .awaitTermination()
