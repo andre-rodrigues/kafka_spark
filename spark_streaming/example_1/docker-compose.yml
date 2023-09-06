@@ -1,6 +1,8 @@
 version: '3'
 
 services:
+  # Connect to database
+  # pgcli postgresql://postgres@localhost:5433/waia
   waia-spark-stream-example-1-db:
     image: postgres:14.1-alpine
     restart: always
