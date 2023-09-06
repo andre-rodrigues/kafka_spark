@@ -1,3 +1,6 @@
+import os
+os.environ['PYSPARK_SUBMIT_ARGS'] = '--packages org.postgresql:postgresql:42.5.4 pyspark-shell'
+
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import *
 
@@ -25,9 +28,24 @@ if __name__ == "__main__":
     # Option 2: Using SQL to run aggregations
     ####### 
     complaints_df.createOrReplaceTempView("complaints")
-    spark.sql("""
+
+    results = spark.sql("""
         SELECT Borough, count(*) as count
         FROM complaints
         GROUP BY Borough;
-    """).show(100, False)
+    """)
+
+    # Write to console
+    results.show(100, False)
+
+    # Write to Database
+    results.write \
+        .format("jdbc") \
+        .mode("append") \
+        .option("url", "jdbc:postgresql://waia-spark-sql-db:5432/waia") \
+        .option("driver", "org.postgresql.Driver") \
+        .option("dbtable", "complaints") \
+        .option("user", "postgres") \
+        .option("password", "postgres") \
+        .save()
 
