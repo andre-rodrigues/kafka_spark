@@ -6,8 +6,14 @@ Overall, Spark SQL simplifies big data processing by providing a familiar SQL in
 
 Feel free to run some of the scripts in this repository to see how it works and explore the source code.
 
+### Example using Docker:
 
-#### Example:
+```
+docker compose up
+```
+
+
+### Example without Docker:
 
 ```
 pip install -r requirements.txt
