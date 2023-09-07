@@ -34,6 +34,8 @@ services:
       - waia
     environment:
       - PYTHONUNBUFFERED=1
+    volumes:
+      - ./producer:/app
 
 volumes:
   kafka_data:
